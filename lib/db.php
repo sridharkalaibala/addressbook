@@ -15,7 +15,11 @@ class db {
 
     public function __construct()
     {
+        $this->connect();
+    }
 
+    public  function connect()
+    {
         if (!include('../config.php')) {
             echo('<strong>Error:</strong> Could not find a config.php file root directory. Check to make sure the file exists.');
             die();
@@ -31,5 +35,24 @@ class db {
         }
     }
 
+    public function read()
+    {
+
+    }
+
+    public function update()
+    {
+
+    }
+
+    public function delete()
+    {
+
+    }
+
+    public function __destruct()
+    {
+        $this->conn->close();
+    }
 
 }
