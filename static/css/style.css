@@ -1,8 +1,8 @@
 #container {
     margin: auto;
     width: 960px;
-    height: 800px;
-    border: 1px solid blue;
+    height: 100%;
+    border: 1px solid #428eff;
     padding: 1px;
 }
 
@@ -17,7 +17,7 @@
     width:900px;
     float:left;
     padding:10px;
-    height: 660px;
+    height: 100%;
 }
 #footer {
     background-color:#99c3e8;
@@ -25,4 +25,38 @@
     clear:both;
     text-align:center;
     padding:5px;
+}
+
+#add {
+    margin-left: 200px;
+}
+
+label{
+    font-weight:bold;
+    text-align:right;
+}
+
+input{
+    padding:4px 2px;
+    border:solid 1px #aacfe4;
+    width:200px;
+    margin:2px 0 10px 10px;
+    display: block;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+th, td {
+    text-align: left;
+    padding: 8px;
+}
+
+tr:nth-child(even){background-color: #f2f2f2}
+
+th {
+    background-color: #4CAF50;
+    color: white;
 }

@@ -1,10 +1,7 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: sridhar
- * Date: 5/11/16
- * Time: 11:02 PM
- */
+if(!defined('ACCESS')) {
+    die('Direct access not permitted');
+}
 
 $config = [];
 $config['host'] = 'localhost';
