@@ -43,7 +43,7 @@
 <div id="pagination" align="center">
 
     <?php
-    echo '<br> Showing '. count($data).' of '.$total_records. ' records. <br> <br>';
+    echo '<br> Showing '. count($data).' out of '.$total_records. ' records. <br> <br>';
     $page_name = isset($_GET['searchtxt']) ? 'index.php?searchtxt='.$_GET['searchtxt'].'&' : 'index.php?';
     echo getPagination($limit, $total_records, $page_name);
     ?>

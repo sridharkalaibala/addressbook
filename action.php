@@ -54,7 +54,7 @@ include_once "lib/db.php";
      break;
 
      case 'exportXML':
-         $data = $db->read_all();
+         $data = $db->read_all(null,0,10000);
          header('Content-type: text/xml');
          header('Content-Disposition: attachment; filename="addressbook.xml"');
          echo array_to_xml($data, new SimpleXMLElement('<root/>'))->asXML();
@@ -63,7 +63,7 @@ include_once "lib/db.php";
      break;
 
      case 'exportCSV':
-         $data = $db->read_all();
+         $data = $db->read_all(null,0,10000);
          header("Content-type: text/csv");
          header("Content-Disposition: attachment; filename=addressbook.csv");
          header("Pragma: no-cache");
@@ -75,7 +75,7 @@ include_once "lib/db.php";
      break;
 
      case 'exportExcel':
-         $data = $db->read_all();
+         $data = $db->read_all(null,0,10000);
          header("Content-Disposition: attachment; filename=\"addressbook.xls\"");
          header("Content-Type: application/vnd.ms-excel;");
          header("Pragma: no-cache");
