@@ -18,7 +18,7 @@
                 <td> <?php echo $value['city']; ?> </td>
                 <td> <?php echo $value['zip']; ?> </td>
                 <td> <a href="index.php?action=update&edit_id=<?php echo $value['id']; ?>"> Edit </a>   </td>
-                <td> <a href="index.php?action=update&delete_id=<?php echo $value['id']; ?>"> Delete </a>   </td>
+                <td> <a href="index.php?action=delete&delete_id=<?php echo $value['id']; ?>" onclick="return confirmDelete()"> Delete </a>   </td>
             </tr>
 
     <?php

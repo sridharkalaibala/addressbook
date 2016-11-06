@@ -13,36 +13,44 @@ include_once "lib/db.php";
 
  switch ($action) {
      case 'add':
+         $cities = $db->get_cities();
+         $display['form'] = 'tmpl/form.php';
          if(isset($_POST['submit'])) {
              if(validation($values)) {
-                 $db->update($values);
+                 if($db->insert($values)) {
+                     $message = 'Address added successfully';
+                     $data = $db->read_all();
+                     $display['table'] = 'tmpl/table.php';
+                     unset($display['form']);
+                 }else {
+                     $message = 'Address addition failed';
+                 }
              }else {
-                 $message = 'All fields ara mandatory';
-                 $display[] = 'tmpl/add.php';
+                 $message = 'Please fill all fields';
              }
-         }else {
-             $cities = $db->get_cities();
-             $display[] = 'tmpl/add.php';
          }
      break;
 
      case 'update':
-         if(isset($_POST['submit'])) {
-
+         $cities = $db->get_cities();
+         $display['form'] = 'tmpl/form.php';
+         if(isset($_POST['submit']) && isset($_REQUEST['edit_id'])) {
+             if(validation($values)) {
+                 if($db->update($values,$_REQUEST['edit_id'])) {
+                     $message = 'Address updated successfully';
+                     $data = $db->read_all();
+                     $display['table'] = 'tmpl/table.php';
+                     unset($display['form']);
+                 }else {
+                     $message = 'Address update failed';
+                 }
+             }else {
+                 $message = 'Please fill all fields';
+             }
          }else if(isset($_REQUEST['edit_id'])) {
-             $cities = $db->get_cities();
-             $display[] = 'tmpl/update.php';
+             $values = $db->read($_REQUEST['edit_id']);
          } else {
              $message = 'Invalid Request';
-             $display[] = 'tmpl/add.php';
-         }
-     break;
-
-     case 'delete':
-         if(isset($_REQUEST['delete_id'])) {
-
-         }else {
-            $message = 'Invalid Request';
          }
      break;
 
@@ -50,10 +58,20 @@ include_once "lib/db.php";
          echo "export to xml";
      break;
 
-     default:
-         $data = $db->read();
-         $display[] = 'tmpl/table.php';
+     case 'delete':
+         if(isset($_REQUEST['delete_id'])) {
+             if($db->delete($_REQUEST['delete_id']))
+                 $message = 'Address deleted successfully.';
+             else
+                 $message = 'Address delete failed.';
 
+         }else {
+             $message = 'Invalid Request';
+         }
+
+     default:
+         $data = $db->read_all();
+         $display[] = 'tmpl/table.php';
  }
 
 

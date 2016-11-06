@@ -30,9 +30,9 @@ class DB {
         }
     }
 
-    public function read()
+    public function read_all()
     {
-        $sql = "SELECT b.id as id, first_name, last_name, street, zip, c.city_name as city  FROM book b JOIN city c ON b.city_id = c.id ORDER BY b.id   ";
+        $sql = "SELECT b.id as id, first_name, last_name, street, zip, c.city_name as city FROM book b JOIN city c ON b.city_id = c.id ORDER BY b.id DESC   ";
         $result = $this->conn->query($sql);
         $return = [];
         if ($result->num_rows > 0) {
@@ -43,6 +43,20 @@ class DB {
         }
 
         return $return;
+
+    }
+
+    public function read($id)
+    {
+        $sql = "SELECT b.id as id, first_name, last_name, street, zip, c.id as city  FROM book b JOIN city c ON b.city_id = c.id WHERE b.id=$id";
+        $result = $this->conn->query($sql);
+        $return = [];
+        if ($result->num_rows > 0) {
+            // output data of each row
+            while($row = $result->fetch_assoc()) {
+                return $row;
+            }
+        }
 
     }
 
@@ -62,17 +76,46 @@ class DB {
 
     }
 
-    public function update()
+    public function insert($fields)
     {
-
+        $fields = $this->escapeString($fields);
+        $sql = 'INSERT INTO book(first_name, last_name, street, zip, city_id) VALUES ("'.$fields['first_name'].'"'
+               .', "'.$fields['last_name'].'", "'.$fields['street'].'", "'.$fields['zip'].'", "'.$fields['city'].'" ) ';
+        $result = $this->conn->query($sql);
+        if($result)
+            return true;
+        else
+            return false;
     }
 
-    public function delete()
+    public function update($fields, $id)
     {
-
+        $fields = $this->escapeString($fields);
+        $sql = 'UPDATE book SET first_name = "'.$fields['first_name'].'", last_name = "'.$fields['last_name'].'", street="'.$fields['street'].'", zip = "'.$fields['zip'].'"'
+                .', city_id = "'.$fields['city'].'" WHERE id ='.$id;
+        $result = $this->conn->query($sql);
+        if($result)
+            return true;
+        else
+            return false;
     }
 
+    public function delete($id)
+    {
+        $sql = "DELETE  from book WHERE id=$id";
+        $result = $this->conn->query($sql);
+        if($result)
+            return true;
+        else
+            return false;
+    }
 
+    private function escapeString($fields){
+        foreach ($fields as $index => $value){
+            $fields[$index] = mysqli_real_escape_string($this->conn,$value);
+        }
+        return $fields;
+    }
 
     public function __destruct()
     {
