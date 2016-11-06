@@ -3,6 +3,7 @@
         <th>Firstname</th>
         <th>Lastname</th>
         <th>Street</th>
+        <th>City</th>
         <th>Zip</th>
         <th>Edit</th>
         <th>Delete</th>
@@ -11,12 +12,13 @@
         foreach ($data as $value){
     ?>
             <tr>
-                <td> <?php echo $row['first_name']; ?> </td>
-                <td> <?php echo $row['last_name']; ?> </td>
-                <td> <?php echo $row['street']; ?> </td>
-                <td> <?php echo $row['zip']; ?> </td>
-                <td> <a href="index.php?action=update&edit_id=<?php echo $row['id']; ?>"> Edit </a>   </td>
-                <td> <a href="index.php?action=update&delete_id=<?php echo $row['id']; ?>"> Delete </a>   </td>
+                <td> <?php echo $value['first_name']; ?> </td>
+                <td> <?php echo $value['last_name']; ?> </td>
+                <td> <?php echo $value['street']; ?> </td>
+                <td> <?php echo $value['city']; ?> </td>
+                <td> <?php echo $value['zip']; ?> </td>
+                <td> <a href="index.php?action=update&edit_id=<?php echo $value['id']; ?>"> Edit </a>   </td>
+                <td> <a href="index.php?action=update&delete_id=<?php echo $value['id']; ?>"> Delete </a>   </td>
             </tr>
 
     <?php

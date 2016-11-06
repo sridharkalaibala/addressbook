@@ -3,9 +3,7 @@ if(!defined('ACCESS')) {
     die('Direct access not permitted');
 }
 
-include_once '../config.php';
-
-class db {
+class DB {
 
     public $conn;
     public $config;
@@ -17,7 +15,7 @@ class db {
 
     public  function connect()
     {
-        if (!include('../config.php')) {
+        if (!include('config.php')) {
             echo('<strong>Error:</strong> Could not find a config.php file root directory. Check to make sure the file exists.');
             die();
         }
@@ -34,6 +32,33 @@ class db {
 
     public function read()
     {
+        $sql = "SELECT b.id as id, first_name, last_name, street, zip, c.city_name as city  FROM book b JOIN city c ON b.city_id = c.id ORDER BY b.id   ";
+        $result = $this->conn->query($sql);
+        $return = [];
+        if ($result->num_rows > 0) {
+            // output data of each row
+            while($row = $result->fetch_assoc()) {
+                $return[] = $row;
+            }
+        }
+
+        return $return;
+
+    }
+
+    public function get_cities()
+    {
+        $sql = "SELECT id, city_name as city from city ORDER by id";
+        $result = $this->conn->query($sql);
+        $return = [];
+        if ($result->num_rows > 0) {
+            // output data of each row
+            while($row = $result->fetch_assoc()) {
+                $return[] = $row;
+            }
+        }
+
+        return $return;
 
     }
 
@@ -46,6 +71,8 @@ class db {
     {
 
     }
+
+
 
     public function __destruct()
     {
