@@ -6,5 +6,5 @@ if(!defined('ACCESS')) {
 $config = [];
 $config['host'] = 'localhost';
 $config['username'] = 'root';
-$config['password'] = 'socialpatrol';
+$config['password'] = '';
 $config['database'] = 'addressbook';
