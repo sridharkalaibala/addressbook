@@ -32,9 +32,9 @@ class DB {
 
     public function read_all($searchText = null, $start=0, $limit=10)
     {
-        $sql = "SELECT b.id as id, first_name, last_name, street, zip, c.city_name as city FROM book b JOIN city c ON b.city_id = c.id ORDER BY b.id DESC   LIMIT $start, $limit  ";
+        $sql = "SELECT b.id as id, first_name, last_name, street, c.city_name as city, zip FROM book b JOIN city c ON b.city_id = c.id ORDER BY b.id DESC   LIMIT $start, $limit  ";
         if(isset($searchText))
-            $sql = "SELECT b.id as id, first_name, last_name, street, zip, c.city_name as city FROM book b JOIN city c ON b.city_id = c.id ".
+            $sql = "SELECT b.id as id, first_name, last_name, street, c.city_name as city, zip FROM book b JOIN city c ON b.city_id = c.id ".
                    "WHERE b.first_name LIKE '%$searchText%' || b.last_name LIKE '%$searchText%'".
                    "|| b.street LIKE '%$searchText%' || c.city_name = '$searchText'  ORDER BY b.id DESC  LIMIT $start, $limit  ";
         $result = $this->conn->query($sql);

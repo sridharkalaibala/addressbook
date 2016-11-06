@@ -53,7 +53,7 @@ include_once "lib/db.php";
          }
      break;
 
-     case 'export':
+     case 'exportXML':
          $data = $db->read_all();
          header('Content-type: text/xml');
          header('Content-Disposition: attachment; filename="addressbook.xml"');
@@ -61,6 +61,30 @@ include_once "lib/db.php";
          exit;
 
      break;
+
+     case 'exportCSV':
+         $data = $db->read_all();
+         header("Content-type: text/csv");
+         header("Content-Disposition: attachment; filename=addressbook.csv");
+         header("Pragma: no-cache");
+         header("Expires: 0");
+         echo "Id,First Name,Last Name,Street,City,Zip\n";
+         echo array_to_csv($data);
+         exit;
+
+     break;
+
+     case 'exportExcel':
+         $data = $db->read_all();
+         header("Content-Disposition: attachment; filename=\"addressbook.xls\"");
+         header("Content-Type: application/vnd.ms-excel;");
+         header("Pragma: no-cache");
+         header("Expires: 0");
+         echo "Id,First Name,Last Name,Street,City,Zip\n";
+         echo array_to_csv($data);
+         exit;
+
+         break;
 
      case 'delete':
          if(isset($_REQUEST['delete_id'])) {
@@ -111,4 +135,12 @@ function array_to_xml(array $arr, SimpleXMLElement $xml)
         }
     }
     return $xml;
+}
+
+function array_to_csv($data) {
+    $outputBuffer = fopen("php://output", 'w');
+    foreach($data as $val) {
+        fputcsv($outputBuffer, $val);
+    }
+    fclose($outputBuffer);
 }
