@@ -55,7 +55,12 @@ include_once "lib/db.php";
      break;
 
      case 'export':
-         echo "export to xml";
+         $data = $db->read_all();
+         header('Content-type: text/xml');
+         header('Content-Disposition: attachment; filename="addressbook.xml"');
+         echo array_to_xml($data, new SimpleXMLElement('<root/>'))->asXML();
+         exit;
+
      break;
 
      case 'delete':
@@ -96,4 +101,16 @@ function validation($values)
 
     return true;
 
+}
+
+function array_to_xml(array $arr, SimpleXMLElement $xml)
+{
+    foreach ($arr as $k => $v) {
+        if(is_array($v)) {
+            array_to_xml($v, $xml->addChild('address'));
+        }else {
+            $xml->addChild($k, $v);
+        }
+    }
+    return $xml;
 }
