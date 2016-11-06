@@ -30,9 +30,13 @@ class DB {
         }
     }
 
-    public function read_all()
+    public function read_all($searchText = null, $start=0, $limit=10)
     {
-        $sql = "SELECT b.id as id, first_name, last_name, street, zip, c.city_name as city FROM book b JOIN city c ON b.city_id = c.id ORDER BY b.id DESC   ";
+        $sql = "SELECT b.id as id, first_name, last_name, street, zip, c.city_name as city FROM book b JOIN city c ON b.city_id = c.id ORDER BY b.id DESC   LIMIT $start, $limit  ";
+        if(isset($searchText))
+            $sql = "SELECT b.id as id, first_name, last_name, street, zip, c.city_name as city FROM book b JOIN city c ON b.city_id = c.id ".
+                   "WHERE b.first_name LIKE '%$searchText%' || b.last_name LIKE '%$searchText%'".
+                   "|| b.street LIKE '%$searchText%' || c.city_name = '$searchText'  ORDER BY b.id DESC  LIMIT $start, $limit  ";
         $result = $this->conn->query($sql);
         $return = [];
         if ($result->num_rows > 0) {
@@ -46,17 +50,33 @@ class DB {
 
     }
 
+    public function get_total_number($searchText = null)
+    {
+        $sql = 'SELECT count(b.id) as total FROM book b JOIN city c ON b.city_id = c.id';
+        if(isset($searchText))
+            $sql = 'SELECT count(b.id) as total FROM book b JOIN city c ON b.city_id = c.id WHERE b.first_name LIKE "%' . $searchText . '%" || b.last_name LIKE "%' . $searchText . '%"'.
+                   '|| b.street LIKE "%' . $searchText . '%" || c.city_name = "' . $searchText . '" ';
+        $result = $this->conn->query($sql);
+        if ($result->num_rows > 0) {
+            // output data of each row
+            while($row = $result->fetch_assoc()) {
+                return $row['total'];
+            }
+        }
+        return 0;
+    }
+
     public function read($id)
     {
         $sql = "SELECT b.id as id, first_name, last_name, street, zip, c.id as city  FROM book b JOIN city c ON b.city_id = c.id WHERE b.id=$id";
         $result = $this->conn->query($sql);
-        $return = [];
         if ($result->num_rows > 0) {
             // output data of each row
             while($row = $result->fetch_assoc()) {
                 return $row;
             }
         }
+        return [];
 
     }
 

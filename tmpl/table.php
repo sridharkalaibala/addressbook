@@ -1,3 +1,17 @@
+<?php
+    //pagination set up
+    include_once 'pagination.php';
+    $limit          = 10;
+    $start          = getStart($limit);
+    $search         = isset($_GET['searchtxt']) ? $_GET['searchtxt'] : null;
+    $data           = $db->read_all($search, $start, $limit);
+    $total_records  = $db->get_total_number($search);
+?>
+
+<form action="" method="GET" name="search">
+    <input name="searchtxt" id="searchtxt" type="text" placeholder="Search" value="<?php echo  isset($_GET['searchtxt']) ?  $_GET['searchtxt'] : ''; ?>" >
+</form>
+
 <table>
     <tr>
         <th>Firstname</th>
@@ -25,3 +39,14 @@
         }
     ?>
 </table>
+
+<div id="pagination" align="center">
+
+    <?php
+    echo '<br> Showing '. count($data).' of '.$total_records. ' records. <br> <br>';
+    $page_name = isset($_GET['searchtxt']) ? 'index.php?searchtxt='.$_GET['searchtxt'].'&' : 'index.php?';
+    echo getPagination($limit, $total_records, $page_name);
+    ?>
+
+</div>
+

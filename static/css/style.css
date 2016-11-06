@@ -94,3 +94,13 @@ li a:hover {
     margin-left: 200px;
     margin-bottom: 15px;
 }
+
+.my_pagination{
+    border: 1px solid #bbbdbe;
+    padding: 0px 5px 0px 5px;
+    margin-left:10px;
+}
+
+#searchtxt {
+    float: right;
+}

@@ -19,7 +19,6 @@ include_once "lib/db.php";
              if(validation($values)) {
                  if($db->insert($values)) {
                      $message = 'Address added successfully';
-                     $data = $db->read_all();
                      $display['table'] = 'tmpl/table.php';
                      unset($display['form']);
                  }else {
@@ -75,8 +74,7 @@ include_once "lib/db.php";
          }
 
      default:
-         $data = $db->read_all();
-         $display[] = 'tmpl/table.php';
+         $display['table'] = 'tmpl/table.php';
  }
 
 

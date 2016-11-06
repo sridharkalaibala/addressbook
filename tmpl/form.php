@@ -20,7 +20,7 @@
             <?php } ?>
         </select>
 
-        <script> document.getElementById('city').value = '<?php if(isset($values['city'])) echo $values['city'];?>'; </script>
+        <?php if(isset($values['city'])) echo '<script> document.getElementById(\'city\').value = \''.$values['city'].'\'</script>'; ?>
 
         <label for="zip">Zip</label>
         <input type="text" id="zip" name="zip" value="<?php if(isset($values['zip'])) echo $values['zip']; ?>" maxlength="10">

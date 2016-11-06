@@ -16,7 +16,7 @@ include_once 'action.php';
                 <ul>
                     <li><a href="index.php">Home / List</a></li>
                     <li><a href="index.php?action=add">Add New</a></li>
-                    <li><a href="index.php?action=export">Export as XML</a></li>
+                    <li><a href="index.php?action=export">Download as XML</a></li>
                 </ul>
             </div>
 
