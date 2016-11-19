@@ -1,11 +1,11 @@
 <?php
     //pagination set up
-    include_once 'pagination.php';
+    include_once 'lib/pagination.php';
     $limit          = 10;
     $start          = getStart($limit);
     $search         = isset($_GET['searchtxt']) ? $_GET['searchtxt'] : null;
-    $data           = $contact->read_all($search, $start, $limit);
-    $total_records  = $contact->get_total_number($search);
+    $data           = $group->read_all($search, $start, $limit);
+    $total_records  = $group->get_total_number($search);
 ?>
 
 <form action="" method="GET" name="search">
@@ -14,11 +14,8 @@
 
 <table>
     <tr>
-        <th>Firstname</th>
-        <th>Lastname</th>
-        <th>Street</th>
-        <th>City</th>
-        <th>Zip</th>
+        <th>Id</th>
+        <th>Name</th>
         <th>Edit</th>
         <th>Delete</th>
     </tr>
@@ -26,13 +23,12 @@
         foreach ($data as $value){
     ?>
             <tr>
-                <td> <?php echo $value['first_name']; ?> </td>
-                <td> <?php echo $value['last_name']; ?> </td>
-                <td> <?php echo $value['street']; ?> </td>
-                <td> <?php echo $value['city']; ?> </td>
-                <td> <?php echo $value['zip']; ?> </td>
-                <td> <a href="index.php?action=update&edit_id=<?php echo $value['id']; ?>"> Edit </a>   </td>
-                <td> <a href="index.php?action=delete&delete_id=<?php echo $value['id']; ?>" onclick="return confirmDelete()"> Delete </a>   </td>
+                <td> <?php echo $value['id']; ?> </td>
+                <td> <?php echo $value['name']; ?> </td>
+                <td> <a href="index.php?control=group&action=update&edit_id=<?php echo $value['id']; ?>"> Edit </a>   </td>
+                <?php if ($value['id'] == 1) echo "<td> N/A </td>"; else { ?>
+                <td> <a href="index.php?control=group&action=delete&delete_id=<?php echo $value['id']; ?>" onclick="return confirmDelete()"> Delete </a>   </td>
+                <?php } ?>
             </tr>
 
     <?php

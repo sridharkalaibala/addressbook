@@ -9,20 +9,20 @@ $message = null;
 $display = [];
 $data = [];
 $values = getValues();
-$contact = new Contact();
+$group = new Group();
 
 switch ($action) {
     case 'add':
-        $cities = $contact->get_cities();
-        $display['form'] = 'tmpl/form.php';
+        $groups = $group->getGroups();
+        $display['form'] = 'tmpl/group/form.php';
         if(isset($_POST['submit'])) {
             if(validation($values)) {
-                if($contact->insert($values)) {
-                    $message = 'Address added successfully';
-                    $display['table'] = 'tmpl/table.php';
+                if($group->insert($values)) {
+                    $message = 'Group added successfully';
+                    $display['table'] = 'tmpl/group/table.php';
                     unset($display['form']);
                 }else {
-                    $message = 'Address addition failed';
+                    $message = 'Group addition failed';
                 }
             }else {
                 $message = 'Please fill all fields';
@@ -31,41 +31,41 @@ switch ($action) {
         break;
 
     case 'update':
-        $cities = $contact->get_cities();
-        $display['form'] = 'tmpl/form.php';
+        $groups = $group->getGroups($_REQUEST['edit_id']);
+        $display['form'] = 'tmpl/group/form.php';
         if(isset($_POST['submit']) && isset($_REQUEST['edit_id'])) {
             if(validation($values)) {
-                if($contact->update($values,$_REQUEST['edit_id'])) {
-                    $message = 'Address updated successfully';
-                    $data = $contact->read_all();
-                    $display['table'] = 'tmpl/table.php';
+                if($group->update($values,$_REQUEST['edit_id'])) {
+                    $message = 'Group updated successfully';
+                    $data = $group->read_all();
+                    $display['table'] = 'tmpl/group/table.php';
                     unset($display['form']);
                 }else {
-                    $message = 'Address update failed';
+                    $message = 'Group update failed';
                 }
             }else {
                 $message = 'Please fill all fields';
             }
         }else if(isset($_REQUEST['edit_id'])) {
-            $values = $contact->read($_REQUEST['edit_id']);
+            $values = $group->read($_REQUEST['edit_id']);
         } else {
             $message = 'Invalid Request';
         }
         break;
 
     case 'exportXML':
-        $data = $contact->read_all(null,0,10000);
+        $data = $group->read_all(null,0,10000);
         header('Content-type: text/xml');
-        header('Content-Disposition: attachment; filename="addressbook.xml"');
+        header('Content-Disposition: attachment; filename="groups.xml"');
         echo array_to_xml($data, new SimpleXMLElement('<root/>'))->asXML();
         exit;
 
         break;
 
     case 'exportCSV':
-        $data = $contact->read_all(null,0,10000);
+        $data = $group->read_all(null,0,10000);
         header("Content-type: text/csv");
-        header("Content-Disposition: attachment; filename=addressbook.csv");
+        header("Content-Disposition: attachment; filename=groups.csv");
         header("Pragma: no-cache");
         header("Expires: 0");
         echo "Id,First Name,Last Name,Street,City,Zip\n";
@@ -75,8 +75,8 @@ switch ($action) {
         break;
 
     case 'exportExcel':
-        $data = $contact->read_all(null,0,10000);
-        header("Content-Disposition: attachment; filename=\"addressbook.xls\"");
+        $data = $group->read_all(null,0,10000);
+        header("Content-Disposition: attachment; filename=\"groups.xls\"");
         header("Content-Type: application/vnd.ms-excel;");
         header("Pragma: no-cache");
         header("Expires: 0");
@@ -88,17 +88,17 @@ switch ($action) {
 
     case 'delete':
         if(isset($_REQUEST['delete_id'])) {
-            if($contact->delete($_REQUEST['delete_id']))
-                $message = 'Address deleted successfully.';
+            if($group->delete($_REQUEST['delete_id']))
+                $message = 'Group deleted successfully.';
             else
-                $message = 'Address delete failed.';
+                $message = 'Group delete failed.';
 
         }else {
             $message = 'Invalid Request';
         }
 
     default:
-        $display['table'] = 'tmpl/table.php';
+        $display['table'] = 'tmpl/group/table.php';
 }
 
 
@@ -106,19 +106,22 @@ function getValues()
 {
     $post = [];
     foreach ($_POST as $index => $value ){
-        $post[$index] = trim(htmlentities($_POST[$index], ENT_QUOTES, 'UTF-8'));
+        if(!is_array($_POST[$index]))
+            $post[$index] = trim(htmlentities($_POST[$index], ENT_QUOTES, 'UTF-8'));
+        else
+            $post[$index] = $_POST[$index];
     }
     return $post;
 }
 
 function validation($values)
 {
-    if(count($values) < 5 )
+    if(count($values) < 2 )
         return false;
 
     foreach ($values as $value)
     {
-        if(strlen($value) < 1) return false;
+        if(!is_array($value) && strlen($value) < 1) return false;
     }
 
     return true;
@@ -129,7 +132,7 @@ function array_to_xml(array $arr, SimpleXMLElement $xml)
 {
     foreach ($arr as $k => $v) {
         if(is_array($v)) {
-            array_to_xml($v, $xml->addChild('address'));
+            array_to_xml($v, $xml->addChild('group'));
         }else {
             $xml->addChild($k, $v);
         }

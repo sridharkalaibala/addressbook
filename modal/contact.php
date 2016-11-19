@@ -13,14 +13,19 @@ class Contact extends DB{
 
     public function read_all($searchText = null, $start=0, $limit=10)
     {
-        $sql = "SELECT b.id as id, first_name, last_name, street, c.city_name as city, zip FROM contact b JOIN city c ON b.city_id = c.id ORDER BY b.id DESC   LIMIT $start, $limit  ";
+        $sql = "SELECT b.id as id, first_name, last_name, street, c.city_name as city, zip, g.name as group_name FROM contact b 
+                JOIN city c ON b.city_id = c.id
+                LEFT JOIN groups g ON b.group_id = g.id
+                ORDER BY b.id DESC   LIMIT $start, $limit  ";
         if(isset($searchText))
-            $sql = "SELECT b.id as id, first_name, last_name, street, c.city_name as city, zip FROM contact b JOIN city c ON b.city_id = c.id ".
+            $sql = "SELECT b.id as id, first_name, last_name, street, c.city_name as city, zip, g.name as group_name FROM contact b 
+                    JOIN city c ON b.city_id = c.id 
+                    LEFT JOIN groups g ON b.group_id = g.id".
                 "WHERE b.first_name LIKE '%$searchText%' || b.last_name LIKE '%$searchText%'".
                 "|| b.street LIKE '%$searchText%' || c.city_name = '$searchText'  ORDER BY b.id DESC  LIMIT $start, $limit  ";
         $result = $this->conn->query($sql);
         $return = [];
-        if ($result->num_rows > 0) {
+        if (isset($result->num_rows) && $result->num_rows > 0) {
             // output data of each row
             while($row = $result->fetch_assoc()) {
                 $return[] = $row;
@@ -38,7 +43,7 @@ class Contact extends DB{
             $sql = 'SELECT count(b.id) as total FROM contact b JOIN city c ON b.city_id = c.id WHERE b.first_name LIKE "%' . $searchText . '%" || b.last_name LIKE "%' . $searchText . '%"'.
                 '|| b.street LIKE "%' . $searchText . '%" || c.city_name = "' . $searchText . '" ';
         $result = $this->conn->query($sql);
-        if ($result->num_rows > 0) {
+        if (isset($result->num_rows) && $result->num_rows > 0) {
             // output data of each row
             while($row = $result->fetch_assoc()) {
                 return $row['total'];
@@ -51,7 +56,7 @@ class Contact extends DB{
     {
         $sql = "SELECT b.id as id, first_name, last_name, street, zip, c.id as city  FROM contact b JOIN city c ON b.city_id = c.id WHERE b.id=$id";
         $result = $this->conn->query($sql);
-        if ($result->num_rows > 0) {
+        if (isset($result->num_rows) && $result->num_rows > 0) {
             // output data of each row
             while($row = $result->fetch_assoc()) {
                 return $row;
@@ -66,7 +71,7 @@ class Contact extends DB{
         $sql = "SELECT id, city_name as city from city ORDER by id";
         $result = $this->conn->query($sql);
         $return = [];
-        if ($result->num_rows > 0) {
+        if (isset($result->num_rows) && $result->num_rows > 0) {
             // output data of each row
             while($row = $result->fetch_assoc()) {
                 $return[] = $row;
@@ -109,13 +114,6 @@ class Contact extends DB{
             return true;
         else
             return false;
-    }
-
-    private function escapeString($fields){
-        foreach ($fields as $index => $value){
-            $fields[$index] = mysqli_real_escape_string($this->conn,$value);
-        }
-        return $fields;
     }
 
     public function __destruct()

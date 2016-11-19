@@ -14,12 +14,12 @@ $contact = new Contact();
 switch ($action) {
     case 'add':
         $cities = $contact->get_cities();
-        $display['form'] = 'tmpl/form.php';
+        $display['form'] = 'tmpl/contact/form.php';
         if(isset($_POST['submit'])) {
             if(validation($values)) {
                 if($contact->insert($values)) {
                     $message = 'Address added successfully';
-                    $display['table'] = 'tmpl/table.php';
+                    $display['table'] = 'tmpl/contact/table.php';
                     unset($display['form']);
                 }else {
                     $message = 'Address addition failed';
@@ -32,13 +32,13 @@ switch ($action) {
 
     case 'update':
         $cities = $contact->get_cities();
-        $display['form'] = 'tmpl/form.php';
+        $display['form'] = 'tmpl/contact/form.php';
         if(isset($_POST['submit']) && isset($_REQUEST['edit_id'])) {
             if(validation($values)) {
                 if($contact->update($values,$_REQUEST['edit_id'])) {
                     $message = 'Address updated successfully';
                     $data = $contact->read_all();
-                    $display['table'] = 'tmpl/table.php';
+                    $display['table'] = 'tmpl/contact/table.php';
                     unset($display['form']);
                 }else {
                     $message = 'Address update failed';
@@ -98,7 +98,7 @@ switch ($action) {
         }
 
     default:
-        $display['table'] = 'tmpl/table.php';
+        $display['table'] = 'tmpl/contact/table.php';
 }
 
 

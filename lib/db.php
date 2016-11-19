@@ -13,7 +13,7 @@ class DB {
         $this->connect();
     }
 
-    public  function connect()
+    public function connect()
     {
         if (!include('config.php')) {
             echo('<strong>Error:</strong> Could not find a config.php file root directory. Check to make sure the file exists.');
@@ -30,7 +30,7 @@ class DB {
         }
     }
 
-    private function escapeString($fields){
+    protected function escapeString($fields){
         foreach ($fields as $index => $value){
             $fields[$index] = mysqli_real_escape_string($this->conn,$value);
         }

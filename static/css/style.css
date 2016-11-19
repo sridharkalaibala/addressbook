@@ -1,3 +1,6 @@
+body {
+    font-size: 14px;
+}
 #container {
     margin: auto;
     width: 960px;
@@ -103,4 +106,12 @@ li a:hover {
 
 #searchtxt {
     float: right;
+}
+
+.fstElement {
+    display: block;
+    font-size: 10px;
+    margin-left: 9px;
+    border: solid 1px #aacfe4;
+    width: 200px;
 }
