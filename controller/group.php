@@ -10,10 +10,10 @@ $display = [];
 $data = [];
 $values = getValues();
 $group = new Group();
+$groups = $group->getGroups();
 
 switch ($action) {
     case 'add':
-        $groups = $group->getGroups();
         $display['form'] = 'tmpl/group/form.php';
         if(isset($_POST['submit'])) {
             if(validation($values)) {

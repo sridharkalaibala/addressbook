@@ -16,6 +16,7 @@
     <tr>
         <th>Id</th>
         <th>Name</th>
+        <th>View Contacts</th>
         <th>Edit</th>
         <th>Delete</th>
     </tr>
@@ -25,6 +26,7 @@
             <tr>
                 <td> <?php echo $value['id']; ?> </td>
                 <td> <?php echo $value['name']; ?> </td>
+                <td> <a href="index.php?parent=<?php echo $value['id']; ?>"> View Contacts </a>   </td>
                 <td> <a href="index.php?control=group&action=update&edit_id=<?php echo $value['id']; ?>"> Edit </a>   </td>
                 <?php if ($value['id'] == 1) echo "<td> N/A </td>"; else { ?>
                 <td> <a href="index.php?control=group&action=delete&delete_id=<?php echo $value['id']; ?>" onclick="return confirmDelete()"> Delete </a>   </td>

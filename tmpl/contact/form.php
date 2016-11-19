@@ -4,6 +4,14 @@
 
     <form action="" method="post">
 
+        <label for="parents">Group</label>
+        <select name="group_id" id="group_id">
+            <?php foreach ($groups as $row){ ?>
+                <option value="<?php echo $row['id']; ?>"
+                    <?php if(isset($values['group_id']) && $row['id'] == $values['group_id']) echo 'selected'?> > <?php echo $row['name']; ?> </option>
+            <?php } ?>
+        </select>
+
         <label for="first_name">First Name</label>
         <input type="text" id="first_name" name="first_name" value="<?php if(isset($values['first_name'])) echo $values['first_name']; ?>" maxlength="50"  required>
 

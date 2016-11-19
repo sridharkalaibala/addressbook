@@ -3,6 +3,7 @@ if(!defined('ACCESS')) {
     die('Direct access not permitted');
 }
 include_once "modal/contact.php";
+include_once "modal/group.php";
 
 $action = isset($_REQUEST['action']) ? $_REQUEST['action'] : '' ;
 $message = null;
@@ -10,10 +11,12 @@ $display = [];
 $data = [];
 $values = getValues();
 $contact = new Contact();
+$group = new Group();
 
 switch ($action) {
     case 'add':
         $cities = $contact->get_cities();
+        $groups = $group->getGroups();
         $display['form'] = 'tmpl/contact/form.php';
         if(isset($_POST['submit'])) {
             if(validation($values)) {
@@ -32,6 +35,7 @@ switch ($action) {
 
     case 'update':
         $cities = $contact->get_cities();
+        $groups = $group->getGroups();
         $display['form'] = 'tmpl/contact/form.php';
         if(isset($_POST['submit']) && isset($_REQUEST['edit_id'])) {
             if(validation($values)) {
@@ -89,9 +93,9 @@ switch ($action) {
     case 'delete':
         if(isset($_REQUEST['delete_id'])) {
             if($contact->delete($_REQUEST['delete_id']))
-                $message = 'Address deleted successfully.';
+                $message = 'Contact deleted successfully.';
             else
-                $message = 'Address delete failed.';
+                $message = 'Contact delete failed.';
 
         }else {
             $message = 'Invalid Request';

@@ -6,6 +6,8 @@ include_once "lib/db.php";
 
 class Group extends DB{
 
+    private $persistParent = [];
+
     public function __construct()
     {
         parent::__construct();
@@ -113,10 +115,20 @@ class Group extends DB{
     {
         if($id == 1) return false;
 
-        $sql = "DELETE  from groups WHERE id=$id";
-        $result = $this->conn->query($sql);
-        if($result)
+        $sql  = "DELETE  from groups WHERE id=$id; ";
+        $sql .= "DELETE  from group_inherit WHERE group_id=$id OR parent_id=$id; ";
+        $sql .= "DELETE  from contact WHERE group_id=$id; ";
+        $result = $this->conn->multi_query($sql);
+        if($result) {
+
+                if ($result = $this->conn->store_result()) {
+                    while ($row = $result->fetch_row()) {
+
+                    }
+                    $result->free();
+                }
             return true;
+        }
         else
             return false;
     }
@@ -141,6 +153,20 @@ class Group extends DB{
             $return[] = $row;
         }
         return $return;
+    }
+
+    function getAllParents($group_id)
+    {
+        $sql = 'SELECT parent_id FROM group_inherit WHERE group_id='.$group_id;
+        $result = $this->conn->query($sql);
+        while ($row = $result->fetch_assoc()) {
+            if(!in_array($row['parent_id'],$this->persistParent) && $row['parent_id'] != NULL){
+                $this->persistParent[] = $row["parent_id"];
+                $this->getAllParents($row["parent_id"]);
+            }
+
+        }
+        return $this->persistParent;
     }
 
     public function __destruct()

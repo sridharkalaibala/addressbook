@@ -104,8 +104,17 @@ li a:hover {
     margin-left:10px;
 }
 
-#searchtxt {
+#searchtxt,#search {
     float: right;
+}
+#group {
+    float: left;
+    width: 600px;
+    display: inline !important;
+}
+#parent, #group_submit {
+    float: left;
+    display: inline !important;
 }
 
 .fstElement {

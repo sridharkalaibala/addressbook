@@ -5,10 +5,10 @@
     <form action="" method="post">
         <label for="parents">Parent Groups</label>
         <select class="multipleSelect" multiple name="parents[]" id="parents">
-            <?php foreach ($groups as $row){ ?>
+            <?php foreach ($groups as $row){ if((isset($_REQUEST['edit_id']) && $_REQUEST['edit_id'] != $row['id']) || !isset($_REQUEST['edit_id']) ){  ?>
                 <option value="<?php echo $row['id']; ?>"
                 <?php if(isset($values['parents']) && is_array($values['parents']) && in_array($row['id'],$values['parents'])) echo 'selected'?> > <?php echo $row['name']; ?> </option>
-            <?php } ?>
+            <?php } } ?>
         </select>
 
         <label for="groups">Group Name</label>
