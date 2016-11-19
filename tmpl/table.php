@@ -4,8 +4,8 @@
     $limit          = 10;
     $start          = getStart($limit);
     $search         = isset($_GET['searchtxt']) ? $_GET['searchtxt'] : null;
-    $data           = $db->read_all($search, $start, $limit);
-    $total_records  = $db->get_total_number($search);
+    $data           = $contact->read_all($search, $start, $limit);
+    $total_records  = $contact->get_total_number($search);
 ?>
 
 <form action="" method="GET" name="search">

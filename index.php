@@ -1,6 +1,10 @@
 <?php
 define('ACCESS', TRUE);
-include_once 'action.php';
+$control = isset($_REQUEST['control']) ? $_REQUEST['control'] : 'contact';   // Default Controller
+if (!include('controller/'.$control.'.php')) {
+    echo('<strong>Error:</strong> Controller Not Found');
+    die();
+}
 ?>
 <!DOCTYPE html>
 <html>
