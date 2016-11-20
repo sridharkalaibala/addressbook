@@ -13,6 +13,10 @@ class Contact extends DB{
         parent::__construct();
     }
 
+    /*
+     *  Reads all contact information for data table
+     */
+
     public function read_all($searchText = null, $start=0, $limit=10)
     {
         $sql = "SELECT b.id as id, first_name, last_name, street, c.city_name as city, zip, GROUP_CONCAT(g.name) as group_name FROM contact b 
@@ -20,7 +24,7 @@ class Contact extends DB{
                 LEFT JOIN contact_group cg ON b.id = cg.contact_id
                 LEFT JOIN groups g ON cg.group_id = g.id  GROUP BY b.id
                 ORDER BY b.id DESC   LIMIT $start, $limit  ";
-
+        // Query only specific to search text
         if(isset($searchText))
             $sql = "SELECT b.id as id, first_name, last_name, street, c.city_name as city, zip, GROUP_CONCAT(g.name) as group_name FROM contact b 
                     LEFT JOIN contact_group cg ON b.id = cg.contact_id
@@ -40,6 +44,9 @@ class Contact extends DB{
 
     }
 
+    /*
+     *  Reads all contacts belongs to particular group
+     */
     public function readByGroup($parent_groups, $searchText = null, $start=0, $limit=10)
     {
         $sql = "SELECT b.id as id, first_name, last_name, street, c.city_name as city, zip, GROUP_CONCAT(g.name) as group_name FROM contact b 
@@ -48,6 +55,7 @@ class Contact extends DB{
                 LEFT JOIN groups g ON cg.group_id = g.id  
                 WHERE cg.group_id IN (".implode($parent_groups,',').") GROUP BY b.id
                 ORDER BY b.id DESC   LIMIT $start, $limit  ";
+        // Query only specific to when search submitted
         if(isset($searchText))
             $sql = "SELECT b.id as id, first_name, last_name, street, c.city_name as city, zip, GROUP_CONCAT(g.name) as group_name FROM contact b 
                     JOIN city c ON b.city_id = c.id 
@@ -68,6 +76,10 @@ class Contact extends DB{
         return $return;
 
     }
+
+    /*
+     *  Find total number of records when group based query
+     */
 
     public function readByGroupTotal($parent_groups, $searchText = null)
     {
@@ -98,6 +110,10 @@ class Contact extends DB{
 
     }
 
+    /*
+     *  Get total number of records for pagination
+     */
+
     public function get_total_number($searchText = null)
     {
         $sql = 'SELECT count(b.id) as total FROM contact b JOIN city c ON b.city_id = c.id';
@@ -114,6 +130,9 @@ class Contact extends DB{
         return 0;
     }
 
+    /*
+     *  When Contact edit, Retrieving row data to edit
+     */
     public function read($id)
     {
         $sql = "SELECT b.id as id, first_name, last_name, street, zip, c.id as city FROM contact b JOIN city c ON b.city_id = c.id WHERE b.id=$id";
@@ -129,6 +148,9 @@ class Contact extends DB{
 
     }
 
+    /*
+     *  Get all groups available
+     */
     public  function getGroups($id)
     {
         $sql = "SELECT group_id FROM contact_group WHERE contact_id = $id";
@@ -140,6 +162,9 @@ class Contact extends DB{
         return $return;
     }
 
+    /*
+     *  Get all cities in the city table
+     */
     public function get_cities()
     {
         $sql = "SELECT id, city_name as city from city ORDER by id";
@@ -155,6 +180,11 @@ class Contact extends DB{
         return $return;
 
     }
+
+    /*
+     *  Add new record into contact
+     *  Groups will be inserted into contact_group with relation
+     */
 
     public function insert($fields)
     {
@@ -174,12 +204,20 @@ class Contact extends DB{
             return false;
     }
 
+    /*
+     *   Contact and its group id will be inserted int contact_group table
+     */
+
     public function insertRelation($contact_id, $group_id)
     {
         $sql = 'INSERT INTO contact_group(contact_id,group_id) VALUES ("'.$contact_id.'","'.$group_id.'") ';
         $this->conn->query($sql);
     }
 
+
+    /*
+     *   Delete all contact group relation entrieds in contact_group table
+     */
     public function deleteRelation($id)
     {
         $sql = "DELETE  from contact_group WHERE contact_id=$id";
@@ -189,6 +227,11 @@ class Contact extends DB{
         else
             return false;
     }
+
+    /*
+     *  Editing contact records into contact table
+     *  contacts groups relation entries will deleted and edited information inserted
+     */
 
     public function update($fields, $id)
     {
@@ -207,6 +250,10 @@ class Contact extends DB{
         else
             return false;
     }
+
+    /*
+     *  Deleting the contact and contact group relational entries
+     */
 
     public function delete($id)
     {

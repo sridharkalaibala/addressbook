@@ -12,10 +12,10 @@ $data = [];
 $values = getValues();
 $contact = new Contact();
 $group = new Group();
-$groups = $group->getGroups();
+$groups = $group->getGroups();      // to show all groups in drop down.
 switch ($action) {
     case 'add':
-        $cities = $contact->get_cities();
+        $cities = $contact->get_cities();  // to list all cities in drop down
         $display['form'] = 'tmpl/contact/form.php';
         if(isset($_POST['submit'])) {
             if(validation($values)) {
@@ -33,7 +33,7 @@ switch ($action) {
         break;
 
     case 'update':
-        $cities = $contact->get_cities();
+        $cities = $contact->get_cities();  // to list all cities in drop down
         $display['form'] = 'tmpl/contact/form.php';
         if(isset($_POST['submit']) && isset($_REQUEST['edit_id'])) {
             if(validation($values)) {
@@ -103,7 +103,9 @@ switch ($action) {
         $display['table'] = 'tmpl/contact/table.php';
 }
 
-
+/*
+ *  Filtering POST values for security
+ */
 function getValues()
 {
     $post = [];
@@ -116,6 +118,10 @@ function getValues()
     return $post;
 }
 
+
+/*
+ *   Basic Validation for required fields
+ */
 function validation($values)
 {
     if(count($values) < 2 )
@@ -130,6 +136,9 @@ function validation($values)
 
 }
 
+/*
+ *   Converting PHP associative array to XML
+ */
 function array_to_xml(array $arr, SimpleXMLElement $xml)
 {
     foreach ($arr as $k => $v) {
@@ -142,6 +151,9 @@ function array_to_xml(array $arr, SimpleXMLElement $xml)
     return $xml;
 }
 
+/*
+ *   Converting PHP associative array to CSV
+ */
 function array_to_csv($data) {
     $outputBuffer = fopen("php://output", 'w');
     foreach($data as $val) {

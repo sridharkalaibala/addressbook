@@ -4,6 +4,7 @@
     $limit          = 10;
     $start          = getStart($limit);
     $search         = isset($_GET['searchtxt']) ? $_GET['searchtxt'] : null;
+    // Condition for showing only group contacts
     if(isset($_GET['parent'])){
         $parent_groups = $group->getAllParents($_GET['parent']);
         $parent_groups[] = $_GET['parent'];
@@ -32,6 +33,7 @@
 <table>
 
     <?php
+    // for showing group linked information (inherit)
     if(isset($_GET['parent'])) {
         $inheritGroups = '<caption> <strong>Linked Groups: </strong> [';
         foreach ($groups as $value) {
