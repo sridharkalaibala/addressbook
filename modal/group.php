@@ -111,10 +111,12 @@ class Group extends DB{
             return false;
     }
 
+    /*
+     * This will delete group associated and its contacts
+     */
+
     public function delete($id)
     {
-        if($id == 1) return false;
-
         $sql  = "DELETE  from groups WHERE id=$id; ";
         $sql .= "DELETE  from group_inherit WHERE group_id=$id OR parent_id=$id; ";
         $sql .= "DELETE  from contact WHERE group_id=$id; ";

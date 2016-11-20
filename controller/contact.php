@@ -20,11 +20,11 @@ switch ($action) {
         if(isset($_POST['submit'])) {
             if(validation($values)) {
                 if($contact->insert($values)) {
-                    $message = 'Address added successfully';
+                    $message = 'Contact added successfully';
                     $display['table'] = 'tmpl/contact/table.php';
                     unset($display['form']);
                 }else {
-                    $message = 'Address addition failed';
+                    $message = 'Contact addition failed';
                 }
             }else {
                 $message = 'Please fill all fields';
@@ -38,12 +38,12 @@ switch ($action) {
         if(isset($_POST['submit']) && isset($_REQUEST['edit_id'])) {
             if(validation($values)) {
                 if($contact->update($values,$_REQUEST['edit_id'])) {
-                    $message = 'Address updated successfully';
+                    $message = 'Contact updated successfully';
                     $data = $contact->read_all();
                     $display['table'] = 'tmpl/contact/table.php';
                     unset($display['form']);
                 }else {
-                    $message = 'Address update failed';
+                    $message = 'Contact update failed';
                 }
             }else {
                 $message = 'Please fill all fields';
@@ -58,7 +58,7 @@ switch ($action) {
     case 'exportXML':
         $data = $contact->read_all(null,0,10000);
         header('Content-type: text/xml');
-        header('Content-Disposition: attachment; filename="addressbook.xml"');
+        header('Content-Disposition: attachment; filename="contacts.xml"');
         echo array_to_xml($data, new SimpleXMLElement('<root/>'))->asXML();
         exit;
 
@@ -67,7 +67,7 @@ switch ($action) {
     case 'exportCSV':
         $data = $contact->read_all(null,0,10000);
         header("Content-type: text/csv");
-        header("Content-Disposition: attachment; filename=addressbook.csv");
+        header("Content-Disposition: attachment; filename=contacts.csv");
         header("Pragma: no-cache");
         header("Expires: 0");
         echo "Id,First Name,Last Name,Street,City,Zip\n";
@@ -78,7 +78,7 @@ switch ($action) {
 
     case 'exportExcel':
         $data = $contact->read_all(null,0,10000);
-        header("Content-Disposition: attachment; filename=\"addressbook.xls\"");
+        header("Content-Disposition: attachment; filename=\"contacts.xls\"");
         header("Content-Type: application/vnd.ms-excel;");
         header("Pragma: no-cache");
         header("Expires: 0");
@@ -108,19 +108,22 @@ function getValues()
 {
     $post = [];
     foreach ($_POST as $index => $value ){
-        $post[$index] = trim(htmlentities($_POST[$index], ENT_QUOTES, 'UTF-8'));
+        if(!is_array($_POST[$index]))
+            $post[$index] = trim(htmlentities($_POST[$index], ENT_QUOTES, 'UTF-8'));
+        else
+            $post[$index] = $_POST[$index];
     }
     return $post;
 }
 
 function validation($values)
 {
-    if(count($values) < 5 )
+    if(count($values) < 2 )
         return false;
 
     foreach ($values as $value)
     {
-        if(strlen($value) < 1) return false;
+        if(!is_array($value) && strlen($value) < 1) return false;
     }
 
     return true;
@@ -131,7 +134,7 @@ function array_to_xml(array $arr, SimpleXMLElement $xml)
 {
     foreach ($arr as $k => $v) {
         if(is_array($v)) {
-            array_to_xml($v, $xml->addChild('address'));
+            array_to_xml($v, $xml->addChild('contact'));
         }else {
             $xml->addChild($k, $v);
         }

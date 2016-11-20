@@ -5,10 +5,10 @@
     <form action="" method="post">
 
         <label for="parents">Group</label>
-        <select name="group_id" id="group_id">
+        <select class="multipleSelect" multiple name="groups[]" id="groups">
             <?php foreach ($groups as $row){ ?>
                 <option value="<?php echo $row['id']; ?>"
-                    <?php if(isset($values['group_id']) && $row['id'] == $values['group_id']) echo 'selected'?> > <?php echo $row['name']; ?> </option>
+                    <?php if(isset($values['groups']) && is_array($values['groups']) && in_array($row['id'],$values['groups'])) echo 'selected'?> > <?php echo $row['name']; ?> </option>
             <?php } ?>
         </select>
 
@@ -40,3 +40,9 @@
     * Note: All fields are mandatory.
 
 </div>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('.multipleSelect').fastselect();
+    });
+</script>
