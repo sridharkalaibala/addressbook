@@ -118,19 +118,18 @@ class Group extends DB{
         $sql  = "DELETE  from groups WHERE id=$id; ";
         $sql .= "DELETE  from group_inherit WHERE group_id=$id OR parent_id=$id; ";
         $sql .= "DELETE  from contact WHERE group_id=$id; ";
-        $result = $this->conn->multi_query($sql);
-        if($result) {
-
-                if ($result = $this->conn->store_result()) {
-                    while ($row = $result->fetch_row()) {
-
-                    }
-                    $result->free();
+        if ($this->conn->multi_query($sql)) {
+            $call = true;
+            do {
+                if (!$this->conn->more_results()) {
+                    $call = false;
                 }
+            } while ($call && $this->conn->next_result());
             return true;
-        }
-        else
+        } else {
             return false;
+        }
+
     }
 
     function getGroupParents($id)

@@ -12,11 +12,10 @@ $data = [];
 $values = getValues();
 $contact = new Contact();
 $group = new Group();
-
+$groups = $group->getGroups();
 switch ($action) {
     case 'add':
         $cities = $contact->get_cities();
-        $groups = $group->getGroups();
         $display['form'] = 'tmpl/contact/form.php';
         if(isset($_POST['submit'])) {
             if(validation($values)) {
@@ -35,7 +34,6 @@ switch ($action) {
 
     case 'update':
         $cities = $contact->get_cities();
-        $groups = $group->getGroups();
         $display['form'] = 'tmpl/contact/form.php';
         if(isset($_POST['submit']) && isset($_REQUEST['edit_id'])) {
             if(validation($values)) {
