@@ -1,6 +1,6 @@
 <div id="form">
 
-    <h2> <?php echo ucfirst($action); ?> Address: </h2>
+    <h2> <?php echo ucfirst($action); ?> Contact: </h2>
 
     <form action="" method="post">
 
