@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.0.10deb1
--- http://www.phpmyadmin.net
+-- version 4.6.4
+-- https://www.phpmyadmin.net/
 --
--- Host: localhost
--- Generation Time: Nov 06, 2016 at 06:26 PM
--- Server version: 5.5.53-0ubuntu0.14.04.1
--- PHP Version: 5.5.38-4+deb.sury.org~trusty+1
+-- Host: 127.0.0.1
+-- Generation Time: Nov 20, 2016 at 06:19 AM
+-- Server version: 5.7.14
+-- PHP Version: 5.6.25
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -14,7 +14,7 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
+/*!40101 SET NAMES utf8mb4 */;
 
 --
 -- Database: `addressbook`
@@ -25,59 +25,13 @@ USE `addressbook`;
 -- --------------------------------------------------------
 
 --
--- Table structure for table `book`
---
-
-CREATE TABLE IF NOT EXISTS `book` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `first_name` varchar(50) NOT NULL,
-  `last_name` varchar(50) NOT NULL,
-  `street` varchar(250) NOT NULL,
-  `city_id` int(11) NOT NULL,
-  `zip` varchar(10) NOT NULL,
-  `updated_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=23 ;
-
---
--- Dumping data for table `book`
---
-
-INSERT INTO `book` (`id`, `first_name`, `last_name`, `street`, `city_id`, `zip`, `updated_on`) VALUES
-(1, 'John', 'Thomas', '1st Street', 1, '12345', '2016-11-06 12:38:49'),
-(2, 'Arul', 'Das', 'Neermulai', 121, '89567', '2016-11-06 12:39:18'),
-(3, 'Erik', 'John', '2nd Cross Street', 1, '89567', '2016-11-06 12:39:43'),
-(4, 'Anton', 'Daniel', 'MJ Street', 93, '56789', '2016-11-06 12:40:16'),
-(5, 'Smith', 'Ann', 'str ion', 76, '4857', '2016-11-06 12:42:26'),
-(6, 'Jones', 'Dunn', 'LMK Street', 147, '7845', '2016-11-06 12:42:46'),
-(7, 'Johnson', 'Page', 'Erju Street', 54, '6985', '2016-11-06 12:43:08'),
-(8, 'Williams', 'Page', 'YUK Street', 78, '8522', '2016-11-06 12:43:34'),
-(9, 'Miller', 'Fellows', 'tyeh Street', 10, '6235', '2016-11-06 12:43:52'),
-(10, 'White', 'Rose', 'JKW Street', 96, '5624', '2016-11-06 12:44:16'),
-(11, 'Cook', 'Bishop', '345 street', 181, '2222', '2016-11-06 12:44:45'),
-(12, 'Bell', 'Dean', '839 Street', 43, '8933', '2016-11-06 12:45:07'),
-(13, 'Butler', 'Hale', '0934 Street', 29, '7548', '2016-11-06 12:45:37'),
-(14, 'West', 'Boyd', 'jhsr street', 30, '5268', '2016-11-06 12:46:27'),
-(15, 'Hart', 'Cross', 'JK Street', 57, '568', '2016-11-06 12:47:01'),
-(16, 'Adrews', 'Abbot', '$FS Street', 67, '6254', '2016-11-06 12:48:36'),
-(17, 'Hodley', 'woodburn', 'GRT Street', 116, '5687', '2016-11-06 12:49:27'),
-(18, 'Timms', 'Sher', 'SS Street', 178, '7856', '2016-11-06 12:49:48'),
-(19, 'Lob', 'Abram', '888 Street', 82, '4257', '2016-11-06 12:50:12'),
-(20, 'Gandy', 'Binder', '999 Street', 104, '66698', '2016-11-06 12:50:35'),
-(21, 'Makin', 'Allred', '#$ER Street', 128, '62543', '2016-11-06 12:51:06'),
-(22, 'Brun', 'Clow', 'MMM Street', 66, '5687458', '2016-11-06 12:51:29');
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `city`
 --
 
-CREATE TABLE IF NOT EXISTS `city` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `city_name` varchar(250) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=203 ;
+CREATE TABLE `city` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `city_name` varchar(250) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `city`
@@ -203,12 +157,12 @@ INSERT INTO `city` (`id`, `city_name`) VALUES
 (117, 'Muscat'),
 (118, 'Nairobi'),
 (119, 'Nassau'),
-(120, 'N''Djamena'),
+(120, 'N\'Djamena'),
 (121, 'New Delhi'),
 (122, 'Niamey'),
 (123, 'Nicosia'),
 (124, 'Nouakchott'),
-(125, 'Nuku''alofa'),
+(125, 'Nuku\'alofa'),
 (126, 'Ouagadougou'),
 (127, 'Oslo'),
 (128, 'Ottawa'),
@@ -237,8 +191,8 @@ INSERT INTO `city` (`id`, `city_name`) VALUES
 (151, 'Riyadh'),
 (152, 'Rome'),
 (153, 'Roseau'),
-(154, 'Saint George''s'),
-(155, 'Saint John''s'),
+(154, 'Saint George\'s'),
+(155, 'Saint John\'s'),
 (156, 'San Jose'),
 (157, 'San Marino'),
 (158, 'San Salvador'),
@@ -286,6 +240,171 @@ INSERT INTO `city` (`id`, `city_name`) VALUES
 (200, 'Zagreb'),
 (202, 'Other City');
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `contact`
+--
+
+CREATE TABLE `contact` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `first_name` varchar(50) NOT NULL,
+  `last_name` varchar(50) NOT NULL,
+  `street` varchar(250) NOT NULL,
+  `city_id` int(11) NOT NULL,
+  `zip` varchar(10) NOT NULL,
+  `updated_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `contact`
+--
+
+INSERT INTO `contact` (`id`, `first_name`, `last_name`, `street`, `city_id`, `zip`, `updated_on`) VALUES
+(1, 'CA1', 'CA1', 'CA1 Street', 1, '12345', '2016-11-20 04:08:42'),
+(2, 'CA2', 'CA2', 'CA2 Street', 49, '222222', '2016-11-20 04:09:09'),
+(3, 'CC1', 'CC1', 'CC1 Street', 56, '1111111', '2016-11-20 04:09:36'),
+(4, 'CC2', 'CC2', 'CC2 Street', 59, '2222222', '2016-11-20 04:10:01'),
+(5, 'CD1', 'CD1', 'CD1 Street', 1, '1234', '2016-11-20 04:11:09'),
+(6, 'CD2', 'CD2', 'CD2 Street', 51, '222', '2016-11-20 05:25:19'),
+(7, 'CB1', 'CB1', 'CB1 Street', 16, '111', '2016-11-20 05:26:09'),
+(8, 'CB2', 'CB2', 'CB2 Steet', 18, '2222', '2016-11-20 05:26:29');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `contact_group`
+--
+
+CREATE TABLE `contact_group` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `contact_id` int(10) UNSIGNED NOT NULL,
+  `group_id` int(10) UNSIGNED NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `contact_group`
+--
+
+INSERT INTO `contact_group` (`id`, `contact_id`, `group_id`) VALUES
+(10, 4, 4),
+(14, 5, 5),
+(18, 1, 2),
+(17, 1, 6),
+(16, 2, 2),
+(15, 2, 6),
+(9, 3, 4),
+(11, 6, 5),
+(12, 7, 3),
+(13, 8, 3);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `groups`
+--
+
+CREATE TABLE `groups` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `name` varchar(250) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `groups`
+--
+
+INSERT INTO `groups` (`id`, `name`) VALUES
+(6, 'Group A'),
+(2, 'Group AA'),
+(3, 'Group B'),
+(4, 'Group C'),
+(5, 'Group D');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `group_inherit`
+--
+
+CREATE TABLE `group_inherit` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `group_id` int(10) UNSIGNED NOT NULL,
+  `parent_id` int(10) UNSIGNED NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `group_inherit`
+--
+
+INSERT INTO `group_inherit` (`id`, `group_id`, `parent_id`) VALUES
+(58, 5, 3),
+(57, 5, 2),
+(59, 5, 4),
+(60, 4, 6);
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `city`
+--
+ALTER TABLE `city`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `contact`
+--
+ALTER TABLE `contact`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `contact_group`
+--
+ALTER TABLE `contact_group`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `groups`
+--
+ALTER TABLE `groups`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `group_inherit`
+--
+ALTER TABLE `group_inherit`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `city`
+--
+ALTER TABLE `city`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=203;
+--
+-- AUTO_INCREMENT for table `contact`
+--
+ALTER TABLE `contact`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+--
+-- AUTO_INCREMENT for table `contact_group`
+--
+ALTER TABLE `contact_group`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+--
+-- AUTO_INCREMENT for table `groups`
+--
+ALTER TABLE `groups`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+--
+-- AUTO_INCREMENT for table `group_inherit`
+--
+ALTER TABLE `group_inherit`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
