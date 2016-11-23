@@ -2,7 +2,7 @@
 if(!defined('ACCESS')) {
     die('Direct access not permitted');
 }
-include_once "modal/group.php";
+include_once "model/group.php";
 
 $action = isset($_REQUEST['action']) ? $_REQUEST['action'] : '' ;
 $message = null;
